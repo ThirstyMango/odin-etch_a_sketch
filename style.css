@@ -115,3 +115,8 @@ body {
 .container__tile--corner-br {
   border-bottom-right-radius: 1rem;
 }
+
+.app__footer {
+  text-align: center;
+  padding: var(--space-small);
+}

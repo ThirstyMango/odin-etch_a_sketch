@@ -67,7 +67,7 @@ body {
   transition: color 200ms ease-in-out;
 }
 
-.header__text-input {
+.header__number-input {
   padding: var(--space-small);
   border: 0.2rem solid black;
   border-radius: 0.3rem;
@@ -89,8 +89,7 @@ body {
   width: 48rem;
   display: flex;
   flex-wrap: wrap;
-  align-content: start;
-  border: 0.3rem solid gray;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
   border-radius: 1rem;
 }
 
@@ -99,4 +98,20 @@ body {
   width: 3rem;
   height: 3rem;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.container__tile--corner-tl {
+  border-top-left-radius: 1rem;
+}
+
+.container__tile--corner-tr {
+  border-top-right-radius: 1rem;
+}
+
+.container__tile--corner-bl {
+  border-bottom-left-radius: 1rem;
+}
+
+.container__tile--corner-br {
+  border-bottom-right-radius: 1rem;
 }

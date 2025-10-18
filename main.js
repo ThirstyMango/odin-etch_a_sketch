@@ -1,15 +1,15 @@
 const DOM = {
   container: document.querySelector(".container"),
   body: document.querySelector("body"),
-  inputNRow: document.querySelector(".header__grid-size--height"),
-  inputNCol: document.querySelector(".header__grid-size--width"),
+  inputNRow: document.querySelector(".nav__grid-size--height"),
+  inputNCol: document.querySelector(".nav__grid-size--width"),
 };
 
 const createTile = function createTile(size, relSize) {
   const tile = document.createElement("div");
   tile.classList.add("container__tile");
 
-  tile.style.flex = `0 0 ${Math.floor(relSize * 100 * 100) / 100}%`;
+  tile.style.flex = `0 0 ${relSize * 100}%`;
   tile.style.width = tile.style.height = `${size}px`;
   return tile;
 };

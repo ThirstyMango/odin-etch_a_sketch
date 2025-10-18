@@ -1,15 +1,15 @@
 const DOM = {
   container: document.querySelector(".container"),
   body: document.querySelector("body"),
-  inputField: document.querySelector(".header__number-input"),
-  generateButton: document.querySelector(".header__button"),
+  inputNRow: document.querySelector(".header__grid-size--height"),
+  inputNCol: document.querySelector(".header__grid-size--width"),
 };
 
 const createTile = function createTile(size, relSize) {
   const tile = document.createElement("div");
   tile.classList.add("container__tile");
 
-  tile.style.flex = `0 0 ${relSize * 100}%`;
+  tile.style.flex = `0 0 ${Math.floor(relSize * 100 * 100) / 100}%`;
   tile.style.width = tile.style.height = `${size}px`;
   return tile;
 };
@@ -36,53 +36,64 @@ const penUp = function penUp() {
   DOM.container.removeEventListener("mousemove", draw);
 };
 
-const getNRowInput = function getNRowInput() {
-  const validateNRow = function validateNRow(nRow) {
-    return !isNaN(nRow) && Number.isInteger(nRow) && nRow > 0 && nRow <= 100; // Is an integer between 1 and a 100;
-  };
-
-  const nRow = parseFloat(DOM.inputField.value);
-  if (!validateNRow(nRow))
-    throw new Error(
-      "The number of tiles has to be an integer between 1 and 100."
-    );
-  return nRow;
+const setValue = function setValue(element, value) {
+  element.value = value;
 };
 
-const innitSketch = function innitSketch(nRow) {
-  const showTiles = function showTiles(nRow) {
+const getSizeInput = function getSizeInput(event) {
+  const validateNRow = function validateNRow(nSide) {
+    return (
+      !isNaN(nSide) && Number.isInteger(nSide) && nSide > 0 && nSide <= 100
+    ); // Is an integer between 1 and a 100;
+  };
+
+  const nSide = parseFloat(event.target.value);
+  if (!validateNRow(nSide) || !validateNRow(nSide))
+    throw new Error("The grid sizes has to be between 1 and 100.");
+  return nSide;
+};
+
+const innitSketch = function innitSketch(nSide) {
+  const showTiles = function showTiles(nSide) {
     DOM.container.textContent = ""; // remove last state
-    const nChildren = Math.pow(nRow, 2);
 
-    const tileSize = DOM.container.offsetWidth / nRow;
-    const tileRelSize = tileSize / DOM.container.offsetWidth;
+    const nChildren = Math.pow(nSide, 2);
+    const tileSize = DOM.container.offsetWidth / nSide;
+    const tileFlexBase = tileSize / DOM.container.offsetWidth;
 
-    let tile = createTile(tileSize, tileRelSize);
+    let tile = createTile(tileSize, tileFlexBase);
     for (let i = 0; i < nChildren; i++) {
       DOM.container.appendChild(tile);
-      tile = createTile(tileSize, tileRelSize);
+      tile = createTile(tileSize, tileFlexBase);
     }
 
     // Corner tiles are rounded
     DOM.container.childNodes[0].classList.add("container__tile--corner-tl");
-    DOM.container.childNodes[nRow - 1].classList.add(
+    DOM.container.childNodes[nSide - 1].classList.add(
       "container__tile--corner-tr"
     );
-    DOM.container.childNodes[nChildren - nRow].classList.add(
+    DOM.container.childNodes[nChildren - nSide].classList.add(
       "container__tile--corner-bl"
     );
     DOM.container.childNodes[nChildren - 1].classList.add(
       "container__tile--corner-br"
     );
-
-    return;
   };
 
-  showTiles(nRow);
+  showTiles(nSide);
 
   DOM.container.addEventListener("mousedown", penDown);
   DOM.body.addEventListener("mouseup", penUp);
-  DOM.generateButton.addEventListener("click", () => showTiles(getNRowInput()));
+  DOM.inputNRow.addEventListener("change", (event) => {
+    const input = getSizeInput(event);
+    setValue(DOM.inputNCol, input);
+    showTiles(input);
+  });
+  DOM.inputNCol.addEventListener("change", (event) => {
+    const input = getSizeInput(event);
+    setValue(DOM.inputNRow, input);
+    showTiles(input);
+  });
 };
 
 innitSketch(16); // default number of tiles

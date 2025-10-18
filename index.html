@@ -17,13 +17,18 @@
     <div class="app" ondragstart="return false" ondragend="return false">
       <div class="app__header header">
         <h1 class="header__info">Etch a sketch</h1>
-        <div class="header__inputs">
+        <div class="header__grid-sizes">
           <input
             type="number"
-            class="header__number-input"
-            placeholder="Tiles on one side"
+            class="header__grid-size header__grid-size--left header__grid-size--height"
+            value="16"
           />
-          <button class="header__button">Generate</button>
+          x
+          <input
+            type="number"
+            class="header__grid-size header__grid-size--width"
+            value="16"
+          />
         </div>
       </div>
       <div class="app__container container"></div>

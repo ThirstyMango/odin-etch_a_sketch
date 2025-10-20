@@ -5,6 +5,7 @@ const DOM = {
   inputNCol: document.querySelector(".nav__grid-size--width"),
   buttonArrowLeft: document.querySelector(".nav__arrow--left"),
   buttonArrowRight: document.querySelector(".nav__arrow--right"),
+  buttonColor: document.querySelector(".nav__color"),
   cTiles: [],
 };
 
@@ -17,19 +18,19 @@ const createTile = function createTile(size, relSize) {
   return tile;
 };
 
-const paintTile = function paintTile(tile, color) {
-  tile.style.background = color;
+const paintTile = function paintTile(tile) {
+  tile.style.backgroundColor = DOM.buttonColor.value;
   return;
 };
 
 const draw = function draw(event) {
-  if (event.target.style.background && event.target.style.background !== "none")
+  if (
+    event.target.style.backgroundColor &&
+    event.target.style.backgroundColor !== "transparent"
+  )
     return;
 
-  const randomGradient = `linear-gradient(${Math.floor(
-    Math.random() * 360
-  )}deg,rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%)`;
-  paintTile(event.target, randomGradient);
+  paintTile(event.target);
 };
 
 const setValue = function setValue(element, value) {
@@ -53,7 +54,7 @@ const innitSketch = function innitSketch(nSide) {
   const showTiles = function showTiles(nSide) {
     DOM.container.textContent = ""; // remove last state
     DOM.cTiles = [];
-    paintHistory = [[]];
+    resetGameState();
 
     const nChildren = Math.pow(nSide, 2);
     const tileSize = DOM.container.offsetWidth / nSide;
@@ -83,8 +84,8 @@ const innitSketch = function innitSketch(nSide) {
   const saveGameState = function saveGameState(cTiles) {
     const cState = [];
     cTiles.forEach((tile, index) => {
-      const tileBG = tile.style.background;
-      if (tileBG && tileBG !== "none") {
+      const tileBG = tile.style.backgroundColor;
+      if (tileBG && tileBG !== "transparent") {
         cState.push({ index, backgroundColor: tileBG });
       }
     });
@@ -117,6 +118,11 @@ const innitSketch = function innitSketch(nSide) {
     DOM.container.removeEventListener("mousemove", draw);
   };
 
+  const resetGameState = function resetGameState() {
+    paintHistory = [[]];
+    cStatePointer = 0;
+  };
+
   const moveGameState = function moveGameState(step) {
     if (cStatePointer + step < 0 || cStatePointer + step >= paintHistory.length)
       return;
@@ -125,12 +131,12 @@ const innitSketch = function innitSketch(nSide) {
   };
 
   const showGameState = function showGameState(stateIndex) {
-    DOM.cTiles.forEach((tile) => (tile.style.background = "none"));
+    DOM.cTiles.forEach((tile) => (tile.style.backgroundColor = "transparent"));
     const newState = paintHistory[stateIndex];
-    console.log(paintHistory);
+    console.log(newState);
     newState.forEach((paintedObj) => {
       const paintedTile = DOM.cTiles[paintedObj.index];
-      paintedTile.style.background = paintedObj.backgroundColor;
+      paintedTile.style.backgroundColor = paintedObj.backgroundColor;
     });
   };
 
@@ -145,11 +151,13 @@ const innitSketch = function innitSketch(nSide) {
     const input = getSizeInput(event);
     setValue(DOM.inputNCol, input);
     showTiles(input);
+    resetGameState();
   });
   DOM.inputNCol.addEventListener("change", (event) => {
     const input = getSizeInput(event);
     setValue(DOM.inputNRow, input);
     showTiles(input);
+    resetGameState();
   });
   DOM.buttonArrowLeft.addEventListener("click", () => moveGameState(-1));
   DOM.buttonArrowRight.addEventListener("click", () => moveGameState(1));

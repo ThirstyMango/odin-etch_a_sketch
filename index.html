@@ -18,27 +18,56 @@
       <div class="app__header header">
         <h1 class="header__info">Etch a sketch</h1>
         <div class="header__nav nav">
+          <div class="nav__input-container">
+            <label for="nav__color" class="nav__label nav__label--color"
+              >Color</label
+            >
+            <div class="nav__color-container">
+              <input
+                type="color"
+                class="nav__color"
+                name="nav__color"
+                id="nav__color"
+              />
+            </div>
+          </div>
+
           <div class="nav__history">
-            <button class="nav__arrow nav__arrow--left">
-              <img src="./imgs/left-arrow.png" alt="left-arrow" />
-            </button>
-            <button class="nav__arrow nav__arrow--right">
-              <img src="./imgs/right-arrow.png" alt="right-arrow" />
-            </button>
+            <div class="nav__input-container">
+              <label for="nav__arrow--left" class="nav__label nav__label--left"
+                >Back</label
+              >
+              <button class="nav__arrow nav__arrow--left" id="nav__arrow--left">
+                <img src="./imgs/left-arrow.png" alt="left-arrow" />
+              </button>
+            </div>
+            <div class="nav__input-container">
+              <label
+                for="nav__arrow--right"
+                class="nav__label nav__label--right"
+                >Forward</label
+              >
+              <button
+                class="nav__arrow nav__arrow--right"
+                id="nav__arrow--left"
+              >
+                <img src="./imgs/right-arrow.png" alt="right-arrow" />
+              </button>
+            </div>
           </div>
-          <div class="nav__grid-sizes">
-            <input
-              type="number"
-              class="nav__grid-size nav__grid-size--height"
-              value="16"
-            />
-            x
-            <input
-              type="number"
-              class="nav__grid-size nav__grid-size--width"
-              value="16"
-            />
-          </div>
+        </div>
+        <div class="nav__grid-sizes">
+          <input
+            type="number"
+            class="nav__grid-size nav__grid-size--height"
+            value="16"
+          />
+          x
+          <input
+            type="number"
+            class="nav__grid-size nav__grid-size--width"
+            value="16"
+          />
         </div>
       </div>
       <div class="app__container container"></div>

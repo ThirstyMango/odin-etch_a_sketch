@@ -66,18 +66,58 @@ input[dir="rtl"]::-webkit-inner-spin-button {
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   padding: var(--space-small);
 }
 
 .header__nav {
   display: flex;
-  gap: var(--space-big);
+  align-items: center;
+  gap: var(--space-medium);
 }
 
 .header__info {
   letter-spacing: 0.2rem;
   cursor: default;
+}
+
+.nav:has(.nav__color:hover) .nav__label--color,
+.nav:has(.nav__arrow--left:hover) .nav__label--left,
+.nav:has(.nav__arrow--right:hover) .nav__label--right {
+  opacity: 0.6;
+}
+
+.nav__color-container {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.nav__color {
+  cursor: pointer;
+  border: none;
+  width: 200%;
+  height: 200%;
+  transform: translate(-25%, -25%);
+}
+
+.nav__history {
+  display: flex;
+}
+
+.nav__input-container {
+  position: relative;
+}
+
+.nav__label {
+  position: absolute;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.nav__label {
+  bottom: 2rem;
 }
 
 .nav__arrow {

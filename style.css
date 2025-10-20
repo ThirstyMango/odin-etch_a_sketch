@@ -39,7 +39,7 @@ body {
   position: relative;
 }
 
-.header__grid-size--height[type="number"]::-webkit-textfield-decoration-container {
+.nav__grid-size--height[type="number"]::-webkit-textfield-decoration-container {
   flex-direction: row-reverse;
 }
 input[type="number"]::-webkit-inner-spin-button {

@@ -1,6 +1,8 @@
-import { Controller } from "../main";
-
 const Model = {
+  paintHistory: [[]],
+
+  cStatePointer: 0,
+
   saveGameState(cTiles) {
     const cState = [];
     cTiles.forEach((tile, index) => {
@@ -10,39 +12,32 @@ const Model = {
       }
     });
 
-    if (paintHistory[cStatePointer].length !== cState.length) {
-      paintHistory.push(cState);
-      cStatePointer++;
+    if (this.paintHistory[this.cStatePointer].length !== cState.length) {
+      this.paintHistory.push(cState);
+      this.cStatePointer++;
       return;
     }
 
     for (let i = 0; i < cState.length; i++) {
       if (
-        JSON.stringify(paintHistory[cStatePointer][i]) !==
+        JSON.stringify(this.paintHistory[this.cStatePointer][i]) !==
         JSON.stringify(cState[i])
       ) {
-        paintHistory.push(cState);
-        cStatePointer++;
+        this.paintHistory.push(cState);
+        this.cStatePointer++;
         return;
       }
     }
   },
 
-  resetGameState() {
-    paintHistory = [[]];
-    cStatePointer = 0;
-  },
-
   moveGameState(step) {
-    if (cStatePointer + step < 0 || cStatePointer + step >= paintHistory.length)
+    if (
+      this.cStatePointer + step < 0 ||
+      this.cStatePointer + step >= this.paintHistory.length
+    )
       return;
-    cStatePointer += step;
-    showGameState(cStatePointer);
+    this.cStatePointer += step;
   },
 };
-
-// Properties to add
-let paintHistory = [[]];
-let cStatePointer = 0;
 
 export { Model };

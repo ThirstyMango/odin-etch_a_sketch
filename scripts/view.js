@@ -1,3 +1,6 @@
+import { Controller } from "../main.js";
+import { DOM } from "./dom.js";
+
 const View = {
   createTile(size, relSize) {
     const tile = document.createElement("div");
@@ -9,28 +12,26 @@ const View = {
   },
 
   paintTile(tile, bgColor) {
-    tile.style.backgroundColor = DOM.buttonColor.value;
+    tile.style.backgroundColor = bgColor;
     return;
   },
 
   draw(event, bgColor) {
-    this.paintTile(event.target, bgColor);
+    View.paintTile(event.target, bgColor);
   },
 
   showTiles(nSide) {
     DOM.container.textContent = ""; // remove last state
     DOM.cTiles = [];
-    resetGameState();
+    Controller.resetGameState();
 
     const nChildren = Math.pow(nSide, 2);
     const tileSize = DOM.container.offsetWidth / nSide;
     const tileFlexBase = tileSize / DOM.container.offsetWidth;
 
-    let tile = createTile(tileSize, tileFlexBase);
-    DOM.cTiles.push(tile);
     for (let i = 0; i < nChildren; i++) {
+      let tile = this.createTile(tileSize, tileFlexBase);
       DOM.container.appendChild(tile);
-      tile = createTile(tileSize, tileFlexBase);
       DOM.cTiles.push(tile);
     }
 
@@ -47,9 +48,8 @@ const View = {
     );
   },
 
-  showGameState(stateIndex) {
+  showGameState(newState) {
     DOM.cTiles.forEach((tile) => (tile.style.backgroundColor = "transparent"));
-    const newState = paintHistory[stateIndex];
     newState.forEach((paintedObj) => {
       const paintedTile = DOM.cTiles[paintedObj.index];
       paintedTile.style.backgroundColor = paintedObj.backgroundColor;

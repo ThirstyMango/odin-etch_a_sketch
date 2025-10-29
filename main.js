@@ -1,9 +1,15 @@
-import { View } from "./scripts/view";
-import { Model } from "./scripts/model";
+import { DOM } from "./scripts/dom.js";
+import { View } from "./scripts/view.js";
+import { Model } from "./scripts/model.js";
 
 const Controller = {
   setValue(element, value) {
     element.value = value;
+  },
+
+  resetGameState() {
+    Model.paintHistory = [[]];
+    Model.cStatePointer = 0;
   },
 
   getSizeInput(event) {
@@ -20,26 +26,27 @@ const Controller = {
   },
 
   innitSketch(nSide) {
+    const drawHandler = function drawHandler(event) {
+      View.draw(event, DOM.buttonColor.value);
+    };
+
     const penDown = function penDown(event) {
       View.draw(event); // click should paint the clicked tile
-      DOM.container.addEventListener("mousemove", View.draw);
+      DOM.container.addEventListener("mousemove", drawHandler);
     };
 
     const penUp = function penUp() {
-      saveGameState(DOM.cTiles);
-      DOM.container.removeEventListener("mousemove", (e, bgCol) => draw(e));
+      Model.saveGameState(DOM.cTiles);
+      DOM.container.removeEventListener("mousemove", drawHandler);
     };
 
-    let paintHistory = [[]];
-    let cStatePointer = 0;
-
-    showTiles(nSide);
+    View.showTiles(nSide);
 
     DOM.container.addEventListener("mousedown", penDown);
     DOM.body.addEventListener("mouseup", penUp);
     DOM.inputNRow.addEventListener("change", (event) => {
-      const input = getSizeInput(event);
-      setValue(DOM.inputNCol, input);
+      const input = this.getSizeInput(event);
+      setValue(DOM.inputNCol, input); // set the grid to be a x a all the time
       showTiles(input);
       resetGameState();
     });
@@ -49,8 +56,16 @@ const Controller = {
       showTiles(input);
       resetGameState();
     });
-    DOM.buttonArrowLeft.addEventListener("click", () => moveGameState(-1));
-    DOM.buttonArrowRight.addEventListener("click", () => moveGameState(1));
+    DOM.buttonArrowLeft.addEventListener("click", () => {
+      Model.moveGameState(-1); // changes cStatePointer
+      const cState = Model.paintHistory[Model.cStatePointer];
+      View.showGameState(cState);
+    });
+    DOM.buttonArrowRight.addEventListener("click", () => {
+      Model.moveGameState(1);
+      const cState = Model.paintHistory[Model.cStatePointer];
+      View.showGameState(cState);
+    });
   },
 };
 

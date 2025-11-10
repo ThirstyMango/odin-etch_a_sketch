@@ -46,15 +46,15 @@ const Controller = {
     DOM.body.addEventListener("mouseup", penUp);
     DOM.inputNRow.addEventListener("change", (event) => {
       const input = this.getSizeInput(event);
-      setValue(DOM.inputNCol, input); // set the grid to be a x a all the time
-      showTiles(input);
-      resetGameState();
+      this.setValue(DOM.inputNCol, input); // set the grid to be a x a all the time
+      View.showTiles(input);
+      this.resetGameState();
     });
     DOM.inputNCol.addEventListener("change", (event) => {
-      const input = getSizeInput(event);
-      setValue(DOM.inputNRow, input);
-      showTiles(input);
-      resetGameState();
+      const input = this.getSizeInput(event);
+      this.setValue(DOM.inputNRow, input);
+      View.showTiles(input);
+      this.resetGameState();
     });
     DOM.buttonArrowLeft.addEventListener("click", () => {
       Model.moveGameState(-1); // changes cStatePointer

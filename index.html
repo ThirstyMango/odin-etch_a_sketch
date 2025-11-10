@@ -16,7 +16,11 @@
   <body>
     <div class="app" ondragstart="return false" ondragend="return false">
       <div class="app__header header">
-        <h1 class="header__info">Etch a sketch</h1>
+        <div class="header__info">
+          <h1 class="header__main">Etch a sketch</h1>
+          <h5 class="header__secondary">Make you own pixelart</h5>
+        </div>
+
         <div class="header__nav nav">
           <div class="nav__input-container">
             <label for="nav__color" class="nav__label nav__label--color"
@@ -28,6 +32,7 @@
                 class="nav__color"
                 name="nav__color"
                 id="nav__color"
+                value="#ff0000"
               />
             </div>
           </div>

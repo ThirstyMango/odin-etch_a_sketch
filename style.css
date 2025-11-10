@@ -92,6 +92,7 @@ input[dir="rtl"]::-webkit-inner-spin-button {
   height: 2rem;
   border-radius: 50%;
   overflow: hidden;
+  border: 2px solid black;
 }
 
 .nav__color {

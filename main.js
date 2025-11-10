@@ -31,7 +31,7 @@ const Controller = {
     };
 
     const penDown = function penDown(event) {
-      View.draw(event); // click should paint the clicked tile
+      View.draw(event, DOM.buttonColor.value); // click should paint the clicked tile
       DOM.container.addEventListener("mousemove", drawHandler);
     };
 
